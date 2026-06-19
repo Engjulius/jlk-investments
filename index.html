@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -127,10 +126,12 @@ h2 {
   </div>
 
   <form id="loginForm">
-    <input type="text" id="loginUser" placeholder="Username" required>
+    <label>Username</label>
+    <input type="text" id="loginUsername" placeholder="Username" required>
+    <label>Password</label>
     <div class="password-wrapper">
-      <input type="password" id="loginPass" placeholder="Password" required>
-      <button type="button" class="peek-btn" onclick="togglePassword('loginPass', this)">👁️</button>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button type="button" class="peek-btn" onclick="togglePassword('loginPassword', this)">👁️</button>
     </div>
     <button type="submit">Login</button>
   </form>
@@ -139,28 +140,28 @@ h2 {
     <div class="form-grid">
       <div>
         <label>First Name</label>
-        <input type="text" id="signupFirst" placeholder="First Name" required>
+        <input type="text" id="signupFirstName" placeholder="First Name" required>
       </div>
       <div>
-        <label>Second Name</label>
-        <input type="text" id="signupSecond" placeholder="Second Name" required>
+        <label>Last Name</label>
+        <input type="text" id="signupLastName" placeholder="Last Name" required>
       </div>
     </div>
 
     <label>Username</label>
-    <input type="text" id="signupUser" placeholder="Username" required>
+    <input type="text" id="signupUsername" placeholder="Username" required>
 
     <label>Password</label>
     <div class="password-wrapper">
-      <input type="password" id="signupPass" placeholder="Password" required>
-      <button type="button" class="peek-btn" onclick="togglePassword('signupPass', this)">👁️</button>
+      <input type="password" id="signupPassword" placeholder="Password" required>
+      <button type="button" class="peek-btn" onclick="togglePassword('signupPassword', this)">👁️</button>
     </div>
 
-    <label>Gmail</label>
-    <input type="email" id="signupGmail" placeholder="Gmail" required>
+    <label>Email</label>
+    <input type="email" id="signupEmail" placeholder="Email" required>
 
     <label>Phone Number</label>
-    <input type="tel" id="signupTel" placeholder="e.g. 758954766" required>
+    <input type="tel" id="signupPhone" placeholder="e.g. 758954766" required>
 
     <div class="form-grid">
       <div>
@@ -228,13 +229,13 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   try {
     const data = await postData({
       action: 'login',
-      username: document.getElementById('loginUser').value.trim(),
-      password: document.getElementById('loginPass').value
+      username: document.getElementById('loginUsername').value.trim(),
+      password: document.getElementById('loginPassword').value
     });
 
     if (data.status === 'success') {
       msg.className = 'msg success';
-      msg.textContent = `Welcome ${data.user.firstname}! Balance: ${data.user.balance}`;
+      msg.textContent = `Welcome ${data.user.firstName}! Balance: ${data.user.balance}`;
       localStorage.setItem('jlkUser', JSON.stringify(data.user));
       // window.location.href = '/dashboard.html'; // redirect when ready
     } else {
@@ -259,12 +260,12 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
   try {
     const data = await postData({
       action: 'signup',
-      firstName: document.getElementById('signupFirst').value.trim(),
-      secondName: document.getElementById('signupSecond').value.trim(),
-      username: document.getElementById('signupUser').value.trim(),
-      password: document.getElementById('signupPass').value,
-      gmail: document.getElementById('signupGmail').value.trim(),
-      tel: document.getElementById('signupTel').value.trim(),
+      firstName: document.getElementById('signupFirstName').value.trim(),
+      lastName: document.getElementById('signupLastName').value.trim(),
+      username: document.getElementById('signupUsername').value.trim(),
+      password: document.getElementById('signupPassword').value,
+      email: document.getElementById('signupEmail').value.trim(),
+      phone: document.getElementById('signupPhone').value.trim(),
       dob: document.getElementById('signupDob').value,
       gender: document.getElementById('signupGender').value,
       district: document.getElementById('signupDistrict').value.trim()
