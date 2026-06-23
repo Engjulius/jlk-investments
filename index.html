@@ -1,1 +1,213 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Sign Up</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+       .card {
+            background: white;
+            width: 100%;
+            max-width: 380px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            padding: 32px 24px;
+        }
+        h1 {
+            font-size: 24px;
+            margin: 0 0 24px;
+            text-align: center;
+            color: #1c1e21;
+        }
+       .tabs {
+            display: flex;
+            margin-bottom: 24px;
+            background: #f0f2f5;
+            border-radius: 8px;
+            padding: 4px;
+        }
+       .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #65676b;
+        }
+       .tab-btn.active {
+            background: white;
+            color: #0866ff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        form {
+            display: none;
+        }
+        form.active {
+            display: block;
+        }
+       .field {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #1c1e21;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dddfe2;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            outline: none;
+            border-color: #0866ff;
+            box-shadow: 0 0 0 2px rgba(8,102,255,0.2);
+        }
+       .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: #0866ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+       .submit-btn:hover {
+            background: #0654d1;
+        }
+       .error {
+            color: #e41e3f;
+            font-size: 14px;
+            margin-top: 8px;
+            min-height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1 id="formTitle">Log In</h1>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showForm('login')">Login</button>
+            <button class="tab-btn" onclick="showForm('signup')">Sign Up</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="active" onsubmit="submitLogin(event)">
+            <div class="field">
+                <label>Email</label>
+                <input type="email" id="loginEmail" required>
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" id="loginPassword" required>
+            </div>
+            <div class="error" id="loginError"></div>
+            <button type="submit" class="submit-btn">Log In</button>
+        </form>
+
+        <!-- Signup Form -->
+        <form id="signupForm" onsubmit="submitSignup(event)">
+            <div class="field">
+                <label>Full Name</label>
+                <input type="text" id="signupName" required>
+            </div>
+            <div class="field">
+                <label>Email</label>
+                <input type="email" id="signupEmail" required>
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" id="signupPassword" required minlength="6">
+            </div>
+            <div class="field">
+                <label>Confirm Password</label>
+                <input type="password" id="signupConfirm" required minlength="6">
+            </div>
+            <div class="error" id="signupError"></div>
+            <button type="submit" class="submit-btn">Create Account</button>
+        </form>
+    </div>
+
+    <script>
+        function showForm(type) {
+            // Toggle active tab
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Toggle forms
+            document.getElementById('loginForm').classList.toggle('active', type === 'login');
+            document.getElementById('signupForm').classList.toggle('active', type === 'signup');
+            
+            // Update title
+            document.getElementById('formTitle').textContent = type === 'login' ? 'Log In' : 'Sign Up';
+            
+            // Clear errors
+            document.getElementById('loginError').textContent = '';
+            document.getElementById('signupError').textContent = '';
+        }
+
+        function submitLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // TODO: Send to your backend
+            console.log('Login data:', { email, password });
+            // fetch('/api/login', {
+            //     method: 'POST',
+            //     headers: {'Content-Type': 'application/json'},
+            //     body: JSON.stringify({ email, password })
+            // })
+            
+            alert('Login submitted. Check console.');
+        }
+
+        function submitSignup(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirm = document.getElementById('signupConfirm').value;
+            const error = document.getElementById('signupError');
+            
+            if (password !== confirm) {
+                error.textContent = 'Passwords do not match';
+                return;
+            }
+            
+            // TODO: Send to your backend
+            console.log('Signup data:', { name, email, password });
+            // fetch('/api/signup', {
+            //     method: 'POST',
+            //     headers: {'Content-Type': 'application/json'},
+            //     body: JSON.stringify({ name, email, password })
+            // })
+            
+            error.textContent = '';
+            alert('Signup submitted. Check console.');
+        }
+    </script>
+</body>
+</html>
